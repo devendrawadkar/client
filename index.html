@@ -1,10 +1,12 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Side Form Validation</title>
+
+    <title>Registration Form</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -14,7 +16,10 @@
         <div class="container">
 
             <h1>Registration Form</h1>
-            <p class="subtitle">Fill out the form below with valid information</p>
+
+            <p class="subtitle">
+                Fill out the form below with valid information
+            </p>
 
             <form id="registrationForm" novalidate>
 
@@ -27,16 +32,12 @@
                     <input
                         type="text"
                         id="fullName"
-                        name="fullName"
                         placeholder="Enter your full name"
                         required
-                        minlength="3"
-                        maxlength="50"
                     >
 
-                    <span class="error-message" id="fullNameError"></span>
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Email -->
                 <div class="form-group">
@@ -47,16 +48,14 @@
                     <input
                         type="email"
                         id="email"
-                        name="email"
                         placeholder="Enter your email address"
                         required
                     >
 
-                    <span class="error-message" id="emailError"></span>
+                    <span class="error-message"></span>
                 </div>
 
-
-                <!-- Phone Number -->
+                <!-- Phone -->
                 <div class="form-group">
                     <label for="phone">
                         Phone Number <span class="required">*</span>
@@ -65,14 +64,12 @@
                     <input
                         type="tel"
                         id="phone"
-                        name="phone"
                         placeholder="Enter your phone number"
                         required
                     >
 
-                    <span class="error-message" id="phoneError"></span>
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Age -->
                 <div class="form-group">
@@ -83,16 +80,14 @@
                     <input
                         type="number"
                         id="age"
-                        name="age"
                         placeholder="Enter your age"
-                        required
                         min="18"
                         max="100"
+                        required
                     >
 
-                    <span class="error-message" id="ageError"></span>
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Password -->
                 <div class="form-group">
@@ -103,23 +98,14 @@
                     <input
                         type="password"
                         id="password"
-                        name="password"
                         placeholder="Enter a strong password"
                         required
-                        minlength="8"
                     >
 
-                    <span
-                        class="password-strength"
-                        id="passwordStrength">
-                    </span>
+                    <div id="passwordStrength" class="password-strength"></div>
 
-                    <span
-                        class="error-message"
-                        id="passwordError">
-                    </span>
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Confirm Password -->
                 <div class="form-group">
@@ -130,41 +116,30 @@
                     <input
                         type="password"
                         id="confirmPassword"
-                        name="confirmPassword"
                         placeholder="Confirm your password"
                         required
                     >
 
-                    <span
-                        class="error-message"
-                        id="confirmPasswordError">
-                    </span>
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Website -->
                 <div class="form-group">
                     <label for="website">
-                        Website URL (Optional)
+                        Website URL <span>(Optional)</span>
                     </label>
 
                     <input
                         type="url"
                         id="website"
-                        name="website"
                         placeholder="https://example.com"
                     >
 
-                    <span
-                        class="error-message"
-                        id="websiteError">
-                    </span>
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Gender -->
                 <div class="form-group">
-
                     <label>
                         Gender <span class="required">*</span>
                     </label>
@@ -175,8 +150,7 @@
                             <input
                                 type="radio"
                                 name="gender"
-                                value="male"
-                                required
+                                value="Male"
                             >
                             Male
                         </label>
@@ -185,8 +159,7 @@
                             <input
                                 type="radio"
                                 name="gender"
-                                value="female"
-                                required
+                                value="Female"
                             >
                             Female
                         </label>
@@ -195,77 +168,61 @@
                             <input
                                 type="radio"
                                 name="gender"
-                                value="other"
-                                required
+                                value="Other"
                             >
                             Other
                         </label>
 
                     </div>
 
-                    <span
-                        class="error-message"
-                        id="genderError">
-                    </span>
-
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Terms -->
                 <div class="form-group">
 
                     <label class="checkbox-label">
-
                         <input
                             type="checkbox"
                             id="terms"
-                            name="terms"
                             required
                         >
 
                         I agree to the Terms and Conditions
                         <span class="required">*</span>
-
                     </label>
 
-                    <span
-                        class="error-message"
-                        id="termsError">
-                    </span>
-
+                    <span class="error-message"></span>
                 </div>
-
 
                 <!-- Newsletter -->
                 <div class="form-group">
 
                     <label class="checkbox-label">
-
                         <input
                             type="checkbox"
                             id="newsletter"
-                            name="newsletter"
                         >
 
                         Subscribe to our newsletter
-
                     </label>
 
                 </div>
-
 
                 <!-- Buttons -->
                 <div class="button-group">
 
                     <button
                         type="submit"
-                        class="btn-submit">
-                        Submit
+                        class="btn-submit"
+                    >
+                        Register
                     </button>
 
                     <button
                         type="reset"
-                        class="btn-reset">
+                        class="btn-reset"
+                    >
                         Reset
                     </button>
 
@@ -273,26 +230,23 @@
 
             </form>
 
-
             <!-- Success Message -->
             <div
                 id="successMessage"
-                class="success-message hidden">
-
-                <h2>✓ Form Submitted Successfully!</h2>
+                class="success-message hidden"
+            >
+                <h2>✓ Registration Successful!</h2>
 
                 <p>
                     Thank you for registering with us.
                 </p>
-
             </div>
 
         </div>
     </main>
 
-
+    <!-- JavaScript -->
     <script src="validation.js"></script>
 
 </body>
 </html>
-```
