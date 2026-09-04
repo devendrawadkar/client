@@ -1,511 +1,694 @@
-/**
- * Client-Side Form Validation
- * Comprehensive JavaScript validation with multiple validation techniques
- */
+```javascript
+// ==========================================
+// CLIENT-SIDE FORM VALIDATION
+// ==========================================
 
-// Get form and all input elements
-const form = document.getElementById('registrationForm');
-const fullNameInput = document.getElementById('fullName');
-const emailInput = document.getElementById('email');
-const phoneInput = document.getElementById('phone');
-const ageInput = document.getElementById('age');
-const passwordInput = document.getElementById('password');
-const confirmPasswordInput = document.getElementById('confirmPassword');
-const websiteInput = document.getElementById('website');
-const dobInput = document.getElementById('dob');
-const genderInputs = document.querySelectorAll('input[name="gender"]');
-const termsCheckbox = document.getElementById('terms');
+// Get form elements
+const form = document.getElementById("registrationForm");
 
-/**
- * Validation Rules Object
- */
-const validationRules = {
-    fullName: {
-        required: true,
-        minLength: 3,
-        maxLength: 50,
-        pattern: /^[a-zA-Z\s'-]+$/,
-        errorMessages: {
-            required: 'Full name is required',
-            minLength: 'Full name must be at least 3 characters',
-            maxLength: 'Full name cannot exceed 50 characters',
-            pattern: 'Full name can only contain letters, spaces, hyphens, and apostrophes'
-        }
-    },
-    email: {
-        required: true,
-        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        errorMessages: {
-            required: 'Email address is required',
-            pattern: 'Please enter a valid email address'
-        }
-    },
-    phone: {
-        required: true,
-        pattern: /^[0-9\-\+\(\)\s]{10,}$/,
-        errorMessages: {
-            required: 'Phone number is required',
-            pattern: 'Please enter a valid phone number (at least 10 digits)'
-        }
-    },
-    age: {
-        required: true,
-        min: 18,
-        max: 100,
-        errorMessages: {
-            required: 'Age is required',
-            min: 'You must be at least 18 years old',
-            max: 'Please enter a valid age'
-        }
-    },
-    password: {
-        required: true,
-        minLength: 8,
-        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,}$/,
-        errorMessages: {
-            required: 'Password is required',
-            minLength: 'Password must be at least 8 characters long',
-            pattern: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)'
-        }
-    },
-    confirmPassword: {
-        required: true,
-        match: 'password',
-        errorMessages: {
-            required: 'Please confirm your password',
-            match: 'Passwords do not match'
-        }
-    },
-    website: {
-        optional: true,
-        pattern: /^https?:\/\/.+/,
-        errorMessages: {
-            pattern: 'Please enter a valid URL (must start with http:// or https://)'
-        }
-    },
-    dob: {
-        required: true,
-        errorMessages: {
-            required: 'Date of birth is required'
-        }
-    },
-    gender: {
-        required: true,
-        errorMessages: {
-            required: 'Please select a gender'
-        }
-    },
-    terms: {
-        required: true,
-        errorMessages: {
-            required: 'You must agree to the terms and conditions'
-        }
-    }
-};
+const fullNameInput = document.getElementById("fullName");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
+const ageInput = document.getElementById("age");
+const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirmPassword");
+const websiteInput = document.getElementById("website");
 
-/**
- * Validate Full Name
- */
+const genderInputs = document.querySelectorAll(
+    'input[name="gender"]'
+);
+
+const termsCheckbox = document.getElementById("terms");
+const newsletterCheckbox = document.getElementById("newsletter");
+
+const successMessage = document.getElementById("successMessage");
+
+
+// ==========================================
+// SHOW ERROR
+// ==========================================
+
+function showError(errorElement, formGroup, message) {
+    errorElement.textContent = message;
+    errorElement.classList.add("show");
+    formGroup.classList.add("error");
+}
+
+
+// ==========================================
+// CLEAR ERROR
+// ==========================================
+
+function clearError(errorElement, formGroup) {
+    errorElement.textContent = "";
+    errorElement.classList.remove("show");
+    formGroup.classList.remove("error");
+}
+
+
+// ==========================================
+// FULL NAME VALIDATION
+// ==========================================
+
 function validateFullName() {
+
     const value = fullNameInput.value.trim();
-    const errorElement = document.getElementById('fullNameError');
-    const formGroup = fullNameInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.fullName.errorMessages.required);
+    const error = document.getElementById("fullNameError");
+    const group = fullNameInput.parentElement;
+
+    if (value === "") {
+        showError(
+            error,
+            group,
+            "Full name is required"
+        );
         return false;
     }
 
-    if (value.length < validationRules.fullName.minLength) {
-        showError(errorElement, formGroup, validationRules.fullName.errorMessages.minLength);
+    if (value.length < 3) {
+        showError(
+            error,
+            group,
+            "Full name must be at least 3 characters"
+        );
         return false;
     }
 
-    if (value.length > validationRules.fullName.maxLength) {
-        showError(errorElement, formGroup, validationRules.fullName.errorMessages.maxLength);
+    if (value.length > 50) {
+        showError(
+            error,
+            group,
+            "Full name cannot exceed 50 characters"
+        );
         return false;
     }
 
-    if (!validationRules.fullName.pattern.test(value)) {
-        showError(errorElement, formGroup, validationRules.fullName.errorMessages.pattern);
+    const namePattern = /^[A-Za-z\s'-]+$/;
+
+    if (!namePattern.test(value)) {
+        showError(
+            error,
+            group,
+            "Name can contain only letters, spaces, hyphens and apostrophes"
+        );
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    clearError(error, group);
     return true;
 }
 
-/**
- * Validate Email
- */
+
+// ==========================================
+// EMAIL VALIDATION
+// ==========================================
+
 function validateEmail() {
+
     const value = emailInput.value.trim();
-    const errorElement = document.getElementById('emailError');
-    const formGroup = emailInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.email.errorMessages.required);
+    const error = document.getElementById("emailError");
+    const group = emailInput.parentElement;
+
+    if (value === "") {
+        showError(
+            error,
+            group,
+            "Email address is required"
+        );
         return false;
     }
 
-    if (!validationRules.email.pattern.test(value)) {
-        showError(errorElement, formGroup, validationRules.email.errorMessages.pattern);
+    const emailPattern =
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(value)) {
+        showError(
+            error,
+            group,
+            "Please enter a valid email address"
+        );
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    clearError(error, group);
     return true;
 }
 
-/**
- * Validate Phone Number
- */
+
+// ==========================================
+// PHONE VALIDATION
+// ==========================================
+
 function validatePhone() {
+
     const value = phoneInput.value.trim();
-    const errorElement = document.getElementById('phoneError');
-    const formGroup = phoneInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.phone.errorMessages.required);
+    const error = document.getElementById("phoneError");
+    const group = phoneInput.parentElement;
+
+    if (value === "") {
+        showError(
+            error,
+            group,
+            "Phone number is required"
+        );
         return false;
     }
 
-    if (!validationRules.phone.pattern.test(value)) {
-        showError(errorElement, formGroup, validationRules.phone.errorMessages.pattern);
+    // Remove spaces, +, -, brackets
+    const digits = value.replace(/\D/g, "");
+
+    if (digits.length < 10 || digits.length > 15) {
+        showError(
+            error,
+            group,
+            "Please enter a valid phone number"
+        );
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    clearError(error, group);
     return true;
 }
 
-/**
- * Validate Age
- */
+
+// ==========================================
+// AGE VALIDATION
+// ==========================================
+
 function validateAge() {
+
     const value = ageInput.value.trim();
-    const errorElement = document.getElementById('ageError');
-    const formGroup = ageInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.age.errorMessages.required);
+    const error = document.getElementById("ageError");
+    const group = ageInput.parentElement;
+
+    if (value === "") {
+        showError(
+            error,
+            group,
+            "Age is required"
+        );
         return false;
     }
 
-    const age = parseInt(value);
+    const age = Number(value);
 
-    if (age < validationRules.age.min) {
-        showError(errorElement, formGroup, validationRules.age.errorMessages.min);
+    if (isNaN(age)) {
+        showError(
+            error,
+            group,
+            "Please enter a valid age"
+        );
         return false;
     }
 
-    if (age > validationRules.age.max) {
-        showError(errorElement, formGroup, validationRules.age.errorMessages.max);
+    if (age < 18) {
+        showError(
+            error,
+            group,
+            "You must be at least 18 years old"
+        );
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    if (age > 100) {
+        showError(
+            error,
+            group,
+            "Please enter a valid age"
+        );
+        return false;
+    }
+
+    clearError(error, group);
     return true;
 }
 
-/**
- * Validate Password
- */
+
+// ==========================================
+// PASSWORD VALIDATION
+// ==========================================
+
 function validatePassword() {
+
     const value = passwordInput.value;
-    const errorElement = document.getElementById('passwordError');
-    const formGroup = passwordInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.password.errorMessages.required);
-        updatePasswordStrength('');
+    const error = document.getElementById("passwordError");
+    const group = passwordInput.parentElement;
+
+    if (value === "") {
+
+        showError(
+            error,
+            group,
+            "Password is required"
+        );
+
+        updatePasswordStrength("");
+
         return false;
     }
 
-    if (value.length < validationRules.password.minLength) {
-        showError(errorElement, formGroup, validationRules.password.errorMessages.minLength);
+    if (value.length < 8) {
+
+        showError(
+            error,
+            group,
+            "Password must be at least 8 characters long"
+        );
+
         updatePasswordStrength(value);
+
         return false;
     }
 
-    if (!validationRules.password.pattern.test(value)) {
-        showError(errorElement, formGroup, validationRules.password.errorMessages.pattern);
+    const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
+
+    if (!passwordPattern.test(value)) {
+
+        showError(
+            error,
+            group,
+            "Password must contain uppercase, lowercase, number and special character"
+        );
+
         updatePasswordStrength(value);
+
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    clearError(error, group);
+
     updatePasswordStrength(value);
+
     return true;
 }
 
-/**
- * Calculate and display password strength
- */
-function updatePasswordStrength(password) {
-    const strengthElement = document.getElementById('passwordStrength');
 
-    if (!password) {
-        strengthElement.classList.remove('show', 'weak', 'medium', 'strong');
+// ==========================================
+// PASSWORD STRENGTH
+// ==========================================
+
+function updatePasswordStrength(password) {
+
+    const strength =
+        document.getElementById("passwordStrength");
+
+    if (password === "") {
+
+        strength.textContent = "";
+
+        strength.classList.remove(
+            "show",
+            "weak",
+            "medium",
+            "strong"
+        );
+
         return;
     }
 
-    strengthElement.classList.add('show');
+    let score = 0;
 
-    let strength = 0;
+    if (password.length >= 8) score++;
+    if (password.length >= 12) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[@$!%*?&]/.test(password)) score++;
 
-    // Check length
-    if (password.length >= 8) strength++;
-    if (password.length >= 12) strength++;
+    strength.classList.add("show");
 
-    // Check character types
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[@$!%*?&]/.test(password)) strength++;
+    strength.classList.remove(
+        "weak",
+        "medium",
+        "strong"
+    );
 
-    strengthElement.classList.remove('weak', 'medium', 'strong');
+    if (score <= 2) {
 
-    if (strength <= 2) {
-        strengthElement.textContent = '⚠️ Weak Password';
-        strengthElement.classList.add('weak');
-    } else if (strength <= 4) {
-        strengthElement.textContent = '⚠️ Medium Password';
-        strengthElement.classList.add('medium');
+        strength.textContent = "⚠ Weak Password";
+        strength.classList.add("weak");
+
+    } else if (score <= 4) {
+
+        strength.textContent = "⚠ Medium Password";
+        strength.classList.add("medium");
+
     } else {
-        strengthElement.textContent = '✓ Strong Password';
-        strengthElement.classList.add('strong');
+
+        strength.textContent = "✓ Strong Password";
+        strength.classList.add("strong");
     }
 }
 
-/**
- * Validate Confirm Password
- */
+
+// ==========================================
+// CONFIRM PASSWORD
+// ==========================================
+
 function validateConfirmPassword() {
+
     const value = confirmPasswordInput.value;
-    const passwordValue = passwordInput.value;
-    const errorElement = document.getElementById('confirmPasswordError');
-    const formGroup = confirmPasswordInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.confirmPassword.errorMessages.required);
+    const error =
+        document.getElementById("confirmPasswordError");
+
+    const group =
+        confirmPasswordInput.parentElement;
+
+    if (value === "") {
+
+        showError(
+            error,
+            group,
+            "Please confirm your password"
+        );
+
         return false;
     }
 
-    if (value !== passwordValue) {
-        showError(errorElement, formGroup, validationRules.confirmPassword.errorMessages.match);
+    if (value !== passwordInput.value) {
+
+        showError(
+            error,
+            group,
+            "Passwords do not match"
+        );
+
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    clearError(error, group);
+
     return true;
 }
 
-/**
- * Validate Website URL
- */
-function validateWebsite() {
-    const value = websiteInput.value.trim();
-    const errorElement = document.getElementById('websiteError');
-    const formGroup = websiteInput.parentElement;
 
-    if (!value) {
-        clearError(errorElement, formGroup);
+// ==========================================
+// WEBSITE VALIDATION
+// ==========================================
+
+function validateWebsite() {
+
+    const value = websiteInput.value.trim();
+
+    const error =
+        document.getElementById("websiteError");
+
+    const group =
+        websiteInput.parentElement;
+
+    // Website is optional
+    if (value === "") {
+
+        clearError(error, group);
+
         return true;
     }
 
-    if (!validationRules.website.pattern.test(value)) {
-        showError(errorElement, formGroup, validationRules.website.errorMessages.pattern);
+    try {
+
+        const url = new URL(value);
+
+        if (
+            url.protocol !== "http:" &&
+            url.protocol !== "https:"
+        ) {
+            throw new Error();
+        }
+
+    } catch {
+
+        showError(
+            error,
+            group,
+            "Please enter a valid URL starting with http:// or https://"
+        );
+
         return false;
     }
 
-    clearError(errorElement, formGroup);
+    clearError(error, group);
+
     return true;
 }
 
-/**
- * Validate Date of Birth
- */
-function validateDob() {
-    const value = dobInput.value;
-    const errorElement = document.getElementById('dobError');
-    const formGroup = dobInput.parentElement;
 
-    if (!value) {
-        showError(errorElement, formGroup, validationRules.dob.errorMessages.required);
-        return false;
-    }
+// ==========================================
+// GENDER VALIDATION
+// ==========================================
 
-    const dob = new Date(value);
-    const today = new Date();
-    const age = today.getFullYear() - dob.getFullYear();
-
-    if (age < 18) {
-        showError(errorElement, formGroup, 'You must be at least 18 years old');
-        return false;
-    }
-
-    clearError(errorElement, formGroup);
-    return true;
-}
-
-/**
- * Validate Gender Selection
- */
 function validateGender() {
-    const errorElement = document.getElementById('genderError');
-    const checked = Array.from(genderInputs).some(input => input.checked);
 
-    if (!checked) {
-        errorElement.textContent = validationRules.gender.errorMessages.required;
-        errorElement.classList.add('show');
+    const error =
+        document.getElementById("genderError");
+
+    const genderGroup =
+        genderInputs[0].closest(".form-group");
+
+    const selected =
+        Array.from(genderInputs).some(
+            input => input.checked
+        );
+
+    if (!selected) {
+
+        showError(
+            error,
+            genderGroup,
+            "Please select a gender"
+        );
+
         return false;
     }
 
-    errorElement.classList.remove('show');
+    clearError(error, genderGroup);
+
     return true;
 }
 
-/**
- * Validate Terms Checkbox
- */
+
+// ==========================================
+// TERMS VALIDATION
+// ==========================================
+
 function validateTerms() {
-    const errorElement = document.getElementById('termsError');
+
+    const error =
+        document.getElementById("termsError");
+
+    const group =
+        termsCheckbox.closest(".form-group");
 
     if (!termsCheckbox.checked) {
-        showError(errorElement, termsCheckbox.parentElement, validationRules.terms.errorMessages.required);
+
+        showError(
+            error,
+            group,
+            "You must agree to the terms and conditions"
+        );
+
         return false;
     }
 
-    clearError(errorElement, termsCheckbox.parentElement);
+    clearError(error, group);
+
     return true;
 }
 
-/**
- * Show Error Message
- */
-function showError(errorElement, formGroup, message) {
-    errorElement.textContent = message;
-    errorElement.classList.add('show');
-    formGroup.classList.add('error');
-}
 
-/**
- * Clear Error Message
- */
-function clearError(errorElement, formGroup) {
-    errorElement.textContent = '';
-    errorElement.classList.remove('show');
-    formGroup.classList.remove('error');
-}
+// ==========================================
+// VALIDATE COMPLETE FORM
+// ==========================================
 
-/**
- * Validate Entire Form
- */
 function validateForm() {
-    const isFullNameValid = validateFullName();
-    const isEmailValid = validateEmail();
-    const isPhoneValid = validatePhone();
-    const isAgeValid = validateAge();
-    const isPasswordValid = validatePassword();
-    const isConfirmPasswordValid = validateConfirmPassword();
-    const isWebsiteValid = validateWebsite();
-    const isDobValid = validateDob();
-    const isGenderValid = validateGender();
-    const isTermsValid = validateTerms();
+
+    const nameValid = validateFullName();
+    const emailValid = validateEmail();
+    const phoneValid = validatePhone();
+    const ageValid = validateAge();
+    const passwordValid = validatePassword();
+    const confirmPasswordValid =
+        validateConfirmPassword();
+    const websiteValid = validateWebsite();
+    const genderValid = validateGender();
+    const termsValid = validateTerms();
 
     return (
-        isFullNameValid &&
-        isEmailValid &&
-        isPhoneValid &&
-        isAgeValid &&
-        isPasswordValid &&
-        isConfirmPasswordValid &&
-        isWebsiteValid &&
-        isDobValid &&
-        isGenderValid &&
-        isTermsValid
+        nameValid &&
+        emailValid &&
+        phoneValid &&
+        ageValid &&
+        passwordValid &&
+        confirmPasswordValid &&
+        websiteValid &&
+        genderValid &&
+        termsValid
     );
 }
 
-/**
- * Handle Form Submission
- */
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
+
+// ==========================================
+// FORM SUBMISSION
+// ==========================================
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
 
     if (validateForm()) {
-        // Show success message
-        form.style.display = 'none';
-        document.getElementById('successMessage').classList.remove('hidden');
 
-        // Log form data
-        console.log('Form submitted successfully!');
+        form.style.display = "none";
+
+        successMessage.classList.remove("hidden");
+
+        console.log("Form submitted successfully!");
+
         console.log({
             fullName: fullNameInput.value,
             email: emailInput.value,
             phone: phoneInput.value,
             age: ageInput.value,
             website: websiteInput.value,
-            dob: dobInput.value,
-            gender: Array.from(genderInputs).find(input => input.checked).value,
-            newsletter: document.getElementById('newsletter').checked
+            gender: Array.from(genderInputs)
+                .find(input => input.checked)?.value,
+            newsletter: newsletterCheckbox.checked
         });
 
         // Reset after 3 seconds
-        setTimeout(() => {
+        setTimeout(function() {
+
             form.reset();
-            form.style.display = 'flex';
-            document.getElementById('successMessage').classList.add('hidden');
+
+            form.style.display = "flex";
+
+            successMessage.classList.add("hidden");
+
+            document
+                .querySelectorAll(".error-message")
+                .forEach(function(error) {
+
+                    error.textContent = "";
+                    error.classList.remove("show");
+                });
+
+            document
+                .querySelectorAll(".form-group")
+                .forEach(function(group) {
+
+                    group.classList.remove("error");
+                });
+
+            document
+                .getElementById("passwordStrength")
+                .classList.remove(
+                    "show",
+                    "weak",
+                    "medium",
+                    "strong"
+                );
+
         }, 3000);
     }
 });
 
-/**
- * Real-time Validation on Input
- */
-fullNameInput.addEventListener('blur', validateFullName);
-fullNameInput.addEventListener('input', validateFullName);
 
-emailInput.addEventListener('blur', validateEmail);
-emailInput.addEventListener('input', validateEmail);
+// ==========================================
+// REAL-TIME VALIDATION
+// ==========================================
 
-phoneInput.addEventListener('blur', validatePhone);
-phoneInput.addEventListener('input', validatePhone);
+fullNameInput.addEventListener(
+    "input",
+    validateFullName
+);
 
-ageInput.addEventListener('blur', validateAge);
-ageInput.addEventListener('input', validateAge);
+emailInput.addEventListener(
+    "input",
+    validateEmail
+);
 
-passwordInput.addEventListener('blur', validatePassword);
-passwordInput.addEventListener('input', validatePassword);
+phoneInput.addEventListener(
+    "input",
+    validatePhone
+);
 
-confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
-confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+ageInput.addEventListener(
+    "input",
+    validateAge
+);
 
-websiteInput.addEventListener('blur', validateWebsite);
-websiteInput.addEventListener('input', validateWebsite);
+passwordInput.addEventListener(
+    "input",
+    validatePassword
+);
 
-dobInput.addEventListener('blur', validateDob);
-dobInput.addEventListener('change', validateDob);
+confirmPasswordInput.addEventListener(
+    "input",
+    validateConfirmPassword
+);
 
-genderInputs.forEach(input => {
-    input.addEventListener('change', validateGender);
+websiteInput.addEventListener(
+    "input",
+    validateWebsite
+);
+
+genderInputs.forEach(function(input) {
+
+    input.addEventListener(
+        "change",
+        validateGender
+    );
+
 });
 
-termsCheckbox.addEventListener('change', validateTerms);
+termsCheckbox.addEventListener(
+    "change",
+    validateTerms
+);
 
-/**
- * Reset Form Handler
- */
-form.addEventListener('reset', function() {
-    setTimeout(() => {
-        document.querySelectorAll('.error-message').forEach(el => {
-            el.classList.remove('show');
-            el.textContent = '';
-        });
-        document.querySelectorAll('.form-group').forEach(el => {
-            el.classList.remove('error');
-        });
-        document.getElementById('passwordStrength').classList.remove('show');
+
+// ==========================================
+// RESET FORM
+// ==========================================
+
+form.addEventListener("reset", function() {
+
+    setTimeout(function() {
+
+        document
+            .querySelectorAll(".error-message")
+            .forEach(function(error) {
+
+                error.textContent = "";
+                error.classList.remove("show");
+
+            });
+
+        document
+            .querySelectorAll(".form-group")
+            .forEach(function(group) {
+
+                group.classList.remove("error");
+
+            });
+
+        const strength =
+            document.getElementById("passwordStrength");
+
+        strength.textContent = "";
+
+        strength.classList.remove(
+            "show",
+            "weak",
+            "medium",
+            "strong"
+        );
+
     }, 0);
 });
+```
