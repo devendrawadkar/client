@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Side Form Validation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <h1>Registration Form</h1>
+            <p class="subtitle">Fill out the form below with valid information</p>
+            
+            <form id="registrationForm" novalidate>
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        placeholder="Enter your full name"
+                        required
+                        minlength="3"
+                        maxlength="50"
+                    >
+                    <span class="error-message" id="fullNameError"></span>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email address"
+                        required
+                    >
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <!-- Phone Number Field -->
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="required">*</span></label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="Enter your phone number"
+                        required
+                    >
+                    <span class="error-message" id="phoneError"></span>
+                </div>
+
+                <!-- Age Field -->
+                <div class="form-group">
+                    <label for="age">Age <span class="required">*</span></label>
+                    <input 
+                        type="number" 
+                        id="age" 
+                        name="age" 
+                        placeholder="Enter your age"
+                        required
+                        min="18"
+                        max="100"
+                    >
+                    <span class="error-message" id="ageError"></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter a strong password"
+                        required
+                        minlength="8"
+                    >
+                    <span class="password-strength" id="passwordStrength"></span>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        placeholder="Confirm your password"
+                        required
+                    >
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <!-- Website Field (Optional) -->
+                <div class="form-group">
+                    <label for="website">Website URL (Optional)</label>
+                    <input 
+                        type="url" 
+                        id="website" 
+                        name="website" 
+                        placeholder="https://example.com"
+                    >
+                    <span class="error-message" id="websiteError"></span>
+                </div>
+
+                <!-- Gender Field -->
+                <div class="form-group">
+                    <label>Gender <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="male" required> Male
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="female" required> Female
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="other" required> Other
+                        </label>
+                    </div>
+                    <span class="error-message" id="genderError"></span>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        I agree to the Terms and Conditions <span class="required">*</span>
+                    </label>
+                    <span class="error-message" id="termsError"></span>
+                </div>
+
+                <!-- Newsletter Checkbox -->
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        Subscribe to our newsletter
+                    </label>
+                </div>
+
+                <!-- Submit and Reset Buttons -->
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">Submit</button>
+                    <button type="reset" class="btn-reset">Reset</button>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message hidden">
+                <h2>✓ Form Submitted Successfully!</h2>
+                <p>Thank you for registering with us.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="validation.js"></script>
+</body>
+</html>
