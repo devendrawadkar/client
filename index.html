@@ -3,250 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Registration Form</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <title>Client Side Form Validation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
     <main>
         <div class="container">
-
             <h1>Registration Form</h1>
-
-            <p class="subtitle">
-                Fill out the form below with valid information
-            </p>
-
+            <p class="subtitle">Fill out the form below with valid information</p>
+            
             <form id="registrationForm" novalidate>
-
-                <!-- Full Name -->
+                <!-- Full Name Field -->
                 <div class="form-group">
-                    <label for="fullName">
-                        Full Name <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        id="fullName"
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
                         placeholder="Enter your full name"
                         required
+                        minlength="3"
+                        maxlength="50"
                     >
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="fullNameError"></span>
                 </div>
 
-                <!-- Email -->
+                <!-- Email Field -->
                 <div class="form-group">
-                    <label for="email">
-                        Email Address <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
                         placeholder="Enter your email address"
                         required
                     >
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="emailError"></span>
                 </div>
 
-                <!-- Phone -->
+                <!-- Phone Number Field -->
                 <div class="form-group">
-                    <label for="phone">
-                        Phone Number <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
+                    <label for="phone">Phone Number <span class="required">*</span></label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
                         placeholder="Enter your phone number"
                         required
                     >
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="phoneError"></span>
                 </div>
 
-                <!-- Age -->
+                <!-- Age Field -->
                 <div class="form-group">
-                    <label for="age">
-                        Age <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="number"
-                        id="age"
+                    <label for="age">Age <span class="required">*</span></label>
+                    <input 
+                        type="number" 
+                        id="age" 
+                        name="age" 
                         placeholder="Enter your age"
+                        required
                         min="18"
                         max="100"
-                        required
                     >
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="ageError"></span>
                 </div>
 
-                <!-- Password -->
+                <!-- Password Field -->
                 <div class="form-group">
-                    <label for="password">
-                        Password <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
                         placeholder="Enter a strong password"
                         required
+                        minlength="8"
                     >
-
-                    <div id="passwordStrength" class="password-strength"></div>
-
-                    <span class="error-message"></span>
+                    <span class="password-strength" id="passwordStrength"></span>
+                    <span class="error-message" id="passwordError"></span>
                 </div>
 
-                <!-- Confirm Password -->
+                <!-- Confirm Password Field -->
                 <div class="form-group">
-                    <label for="confirmPassword">
-                        Confirm Password <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
+                    <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
                         placeholder="Confirm your password"
                         required
                     >
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="confirmPasswordError"></span>
                 </div>
 
-                <!-- Website -->
+                <!-- Website Field (Optional) -->
                 <div class="form-group">
-                    <label for="website">
-                        Website URL <span>(Optional)</span>
-                    </label>
-
-                    <input
-                        type="url"
-                        id="website"
+                    <label for="website">Website URL (Optional)</label>
+                    <input 
+                        type="url" 
+                        id="website" 
+                        name="website" 
                         placeholder="https://example.com"
                     >
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="websiteError"></span>
                 </div>
 
-                <!-- Gender -->
+                <!-- Gender Field -->
                 <div class="form-group">
-                    <label>
-                        Gender <span class="required">*</span>
-                    </label>
-
+                    <label>Gender <span class="required">*</span></label>
                     <div class="radio-group">
-
                         <label class="radio-label">
-                            <input
-                                type="radio"
-                                name="gender"
-                                value="Male"
-                            >
-                            Male
+                            <input type="radio" name="gender" value="male" required> Male
                         </label>
-
                         <label class="radio-label">
-                            <input
-                                type="radio"
-                                name="gender"
-                                value="Female"
-                            >
-                            Female
+                            <input type="radio" name="gender" value="female" required> Female
                         </label>
-
                         <label class="radio-label">
-                            <input
-                                type="radio"
-                                name="gender"
-                                value="Other"
-                            >
-                            Other
+                            <input type="radio" name="gender" value="other" required> Other
                         </label>
-
                     </div>
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="genderError"></span>
                 </div>
 
-                <!-- Terms -->
+                <!-- Terms Checkbox -->
                 <div class="form-group">
-
                     <label class="checkbox-label">
-                        <input
-                            type="checkbox"
-                            id="terms"
-                            required
-                        >
-
-                        I agree to the Terms and Conditions
-                        <span class="required">*</span>
+                        <input type="checkbox" id="terms" name="terms" required>
+                        I agree to the Terms and Conditions <span class="required">*</span>
                     </label>
-
-                    <span class="error-message"></span>
+                    <span class="error-message" id="termsError"></span>
                 </div>
 
-                <!-- Newsletter -->
+                <!-- Newsletter Checkbox -->
                 <div class="form-group">
-
                     <label class="checkbox-label">
-                        <input
-                            type="checkbox"
-                            id="newsletter"
-                        >
-
+                        <input type="checkbox" id="newsletter" name="newsletter">
                         Subscribe to our newsletter
                     </label>
-
                 </div>
 
-                <!-- Buttons -->
+                <!-- Submit and Reset Buttons -->
                 <div class="button-group">
-
-                    <button
-                        type="submit"
-                        class="btn-submit"
-                    >
-                        Register
-                    </button>
-
-                    <button
-                        type="reset"
-                        class="btn-reset"
-                    >
-                        Reset
-                    </button>
-
+                    <button type="submit" class="btn-submit">Submit</button>
+                    <button type="reset" class="btn-reset">Reset</button>
                 </div>
-
             </form>
 
             <!-- Success Message -->
-            <div
-                id="successMessage"
-                class="success-message hidden"
-            >
-                <h2>✓ Registration Successful!</h2>
-
-                <p>
-                    Thank you for registering with us.
-                </p>
+            <div id="successMessage" class="success-message hidden">
+                <h2>✓ Form Submitted Successfully!</h2>
+                <p>Thank you for registering with us.</p>
             </div>
-
         </div>
     </main>
 
-    <!-- JavaScript -->
-    <script src="validation.js"></script>
-
+    <script src="dev.js"></script>
 </body>
 </html>
